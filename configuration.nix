@@ -13,31 +13,33 @@
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-
+  
+  # Mount the great XOL HD
   fileSystems."/mnt/xol" = {
     device = "/dev/sda1";
     fsType = "ext4";  # Replace with the appropriate filesystem type
   };
 
-  networking.hostName = "xenon"; # Define your hostname.
+  networking = {
+    hostName = "xenon";
+    networkmanager = {
+      enable = true;
+    };
+  };
+  
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Make sure opengl is enabled
-	  hardware.opengl = {
-	    enable = true;
-	    driSupport = true;
-	    driSupport32Bit = true;
-	  };
+	hardware.opengl = {
+	  enable = true;
+    driSupport = true;
+    driSupport32Bit = true;
+  };
 
   # Tell Xorg to use the nvidia driver (also valid for Wayland)
-
-  services.xserver = {
-	videoDrivers = ["nvidia"]; 
-	enable = true;
-  };
   hardware.nvidia = {
     # Modesetting is needed for most Wayland compositors
     modesetting.enable = true;
@@ -49,17 +51,12 @@
     # Optionally, you may need to select the appropriate driver version for your specific GPU.
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
-  
-	
-# Enable networking
-  networking.networkmanager.enable = true;
 
   # Set your time zone.
   time.timeZone = "America/Sao_Paulo";
 
   # Select internationalisation properties.
   i18n.defaultLocale = "pt_BR.UTF-8";
-
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "pt_BR.UTF-8";
     LC_IDENTIFICATION = "pt_BR.UTF-8";
@@ -72,24 +69,33 @@
     LC_TIME = "pt_BR.UTF-8";
   };
 
-  # Enable the X11 windowing system.
- #  services.xserver.enable = true;
-	services.xserver.desktopManager.default = "none+i3";
-  services.xserver.desktopManager.xterm.enable = false;
-  services.xserver.displayManager.lightdm.enable = true;
-  services.xserver.windowManager.i3.enable = true;
-
-
-  # Configure keymap in X11
+  # Xserver Config
   services.xserver = {
+    videoDrivers = ["nvidia"]; 
+    enable = true;
     layout = "us";
     xkbVariant = "altgr-intl";
     xkbOptions = "compose:menu";
+    
+    desktopManager = {
+      default = "none+i3";
+      xterm = { enable = false; };
+    };
+    
+    displayManager = {
+      lightdm = { enable = true; };
+      autoLogin = {
+        enable = true;
+        user = "xenon";
+      };
+    };
+    
+    windowManager = {
+      i3 = { enable = true; };
+    };
   };
 
-  # Enable CUPS to print documents.
-  # services.printing.enable = true;
-  # Enable sound with pipewire.
+  # Pipewire (sound) configuration
   sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
@@ -98,18 +104,9 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
-
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
   };
 
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
+  # Define xenon user account
   users.users.xenon = {
     isNormalUser = true;
     description = "Xenon";
@@ -119,10 +116,6 @@
     ];
   };
 
-  # Enable automatic login for the user.
-  services.xserver.displayManager.autoLogin.enable = true;
-  services.xserver.displayManager.autoLogin.user = "xenon";
-
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
   
@@ -131,6 +124,10 @@
     enable = true;
     remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
     dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+  };
+  # OpenVPN3
+  programs.openvpn3 = {
+    enable = true;
   };
 
   # List packages installed in system profile. To search, run:
@@ -179,10 +176,5 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.05"; # Did you read the comment?
-
-  programs.openvpn3 = {
-    enable = true;
-  };
-  
+  system.stateVersion = "23.05"; # Did you read the comment?  
 }
