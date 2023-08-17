@@ -15,8 +15,8 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   fileSystems."/mnt/xol" = {
-    device = "/dev/sdc1";
-    fsType = "ntfs";  # Replace with the appropriate filesystem type
+    device = "/dev/sda1";
+    fsType = "ext4";  # Replace with the appropriate filesystem type
   };
 
   networking.hostName = "xenon"; # Define your hostname.
@@ -89,7 +89,6 @@
 
   # Enable CUPS to print documents.
   # services.printing.enable = true;
-  services.flatpak.enable = true;
   # Enable sound with pipewire.
   sound.enable = true;
   hardware.pulseaudio.enable = false;
