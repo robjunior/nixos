@@ -1,9 +1,10 @@
 { pkgs, lib, ... }:
 
 {
-  xsession.windowManager.i3 = {
+  services.xserver.windowManager.i3 = {
     enable = true;
-   
+    package = pkgs.i3-gaps;
+
     config = rec {
       modifier = "Mod4";
       bars = [ ];
@@ -36,11 +37,6 @@
         }
         {
           command = "systemctl --user restart polybar.service";
-          always = true;
-          notification = false;
-        }
-        {
-          command = "${pkgs.feh}/bin/feh --bg-scale ~/background.png";
           always = true;
           notification = false;
         }

@@ -78,11 +78,11 @@
     xkbOptions = "compose:menu";
     
     desktopManager = {
-      default = "none+i3";
       xterm = { enable = false; };
     };
     
     displayManager = {
+      defaultSession = "none+i3";
       lightdm = { enable = true; };
       autoLogin = {
         enable = true;
