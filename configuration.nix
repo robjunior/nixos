@@ -76,11 +76,9 @@
     layout = "us";
     xkbVariant = "altgr-intl";
     xkbOptions = "compose:menu";
-    
     desktopManager = {
       xterm = { enable = false; };
     };
-    
     displayManager = {
       defaultSession = "none+i3";
       lightdm = { enable = true; };
@@ -89,7 +87,6 @@
         user = "xenon";
       };
     };
-    
     windowManager = {
       i3 = { enable = true; };
     };
