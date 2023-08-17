@@ -14,9 +14,13 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  fileSystems."/mnt/xol" = {
+    device = "/dev/sdc1";
+    fsType = "ntfs";  # Replace with the appropriate filesystem type
+  };
+
   networking.hostName = "xenon"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
@@ -35,17 +39,13 @@
 	enable = true;
   };
   hardware.nvidia = {
-
     # Modesetting is needed for most Wayland compositors
     modesetting.enable = true;
-
     # Use the open source version of the kernel module
     # Only available on driver 515.43.04+
     open = false;
-
     # Enable the nvidia settings menu
     nvidiaSettings = true;
-
     # Optionally, you may need to select the appropriate driver version for your specific GPU.
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
@@ -83,13 +83,13 @@
   # Configure keymap in X11
   services.xserver = {
     layout = "us";
-    xkbVariant = "";
+    xkbVariant = "altgr-intl";
     xkbOptions = "compose:menu";
   };
 
   # Enable CUPS to print documents.
   # services.printing.enable = true;
-
+  services.flatpak.enable = true;
   # Enable sound with pipewire.
   sound.enable = true;
   hardware.pulseaudio.enable = false;
@@ -147,6 +147,7 @@
     inkscape
     git
     rofi	
+    (wine.override { wineBuild = "wine64"; })
     (pkgs.discord.override {
         # remove any overrides that you don't want
         withOpenASAR = true;
