@@ -71,11 +71,12 @@
 
   # Xserver Config
   services.xserver = {
-    videoDrivers = ["nvidia"]; 
     enable = true;
+    videoDrivers = ["nvidia"];
     layout = "us";
     xkbVariant = "altgr-intl";
     xkbOptions = "compose:menu";
+
     desktopManager = {
       xterm = { enable = false; };
     };
@@ -89,6 +90,17 @@
     };
     windowManager = {
       i3 = { enable = true; };
+    };
+    libinput = {
+      enable = true;
+      # disabling mouse acceleration
+      mouse = {
+        accelProfile = "flat";
+      };
+      # disabling touchpad acceleration
+      touchpad = {
+        accelProfile = "flat";
+      };
     };
   };
 
