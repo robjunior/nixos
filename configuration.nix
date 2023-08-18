@@ -139,6 +139,8 @@
     enable = true;
   };
 
+  programs.thunar.enable = true;
+  
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -151,7 +153,7 @@
     gimp
     inkscape
     git
-    rofi	
+    rofi
     (wine.override { wineBuild = "wine64"; })
     (pkgs.discord.override {
         # remove any overrides that you don't want
