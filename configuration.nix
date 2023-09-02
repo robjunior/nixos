@@ -20,6 +20,11 @@
     fsType = "ext4";  # Replace with the appropriate filesystem type
   };
 
+  fileSystems."/mnt/xeol" = {
+    device = "/dev/sdc1";
+    fsType = "ntfs";  # Replace with the appropriate filesystem type
+  };
+
   networking = {
     hostName = "xenon";
     networkmanager = {
@@ -57,17 +62,6 @@
 
   # Select internationalisation properties.
   i18n.defaultLocale = "pt_BR.UTF-8";
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "pt_BR.UTF-8";
-    LC_IDENTIFICATION = "pt_BR.UTF-8";
-    LC_MEASUREMENT = "pt_BR.UTF-8";
-    LC_MONETARY = "pt_BR.UTF-8";
-    LC_NAME = "pt_BR.UTF-8";
-    LC_NUMERIC = "pt_BR.UTF-8";
-    LC_PAPER = "pt_BR.UTF-8";
-    LC_TELEPHONE = "pt_BR.UTF-8";
-    LC_TIME = "pt_BR.UTF-8";
-  };
 
   # Xserver Config
   services.xserver = {
@@ -134,11 +128,8 @@
     remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
     dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
   };
-  # OpenVPN3
-  programs.openvpn3 = {
-    enable = true;
-  };
 
+  # Thunar
   programs.thunar.enable = true;
   
   # List packages installed in system profile. To search, run:
@@ -154,6 +145,8 @@
     inkscape
     git
     rofi
+    obsidian
+    transmission-qt
     (wine.override { wineBuild = "wine64"; })
     (pkgs.discord.override {
         # remove any overrides that you don't want
@@ -164,11 +157,11 @@
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
+  programs.mtr.enable = true;
+  programs.gnupg.agent = {
+    enable = true;
+    enableSSHSupport = true;
+  };
 
   # List services that you want to enable:
 
