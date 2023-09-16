@@ -43,6 +43,14 @@
     driSupport = true;
     driSupport32Bit = true;
   };
+  
+  # Enable OpenTabletDriver
+  hardware.opentabletdriver.enable = true;
+
+  # Enable Bluetooth
+  hardware.bluetooth.enable = true;
+
+  services.blueman.enable = true;
 
   # Tell Xorg to use the nvidia driver (also valid for Wayland)
   hardware.nvidia = {
@@ -75,15 +83,15 @@
       xterm = { enable = false; };
     };
     displayManager = {
-      defaultSession = "none+i3";
+      defaultSession = "plasma";
       lightdm = { enable = true; };
       autoLogin = {
         enable = true;
         user = "xenon";
       };
     };
-    windowManager = {
-      i3 = { enable = true; };
+    desktopManager = {
+      plasma5 = { enable = true; };
     };
     libinput = {
       enable = true;
@@ -142,10 +150,12 @@
     wget
     scrot
     gimp
+    stremio
     inkscape
     git
     rofi
     obsidian
+    telegram-desktop
     transmission-qt
     (wine.override { wineBuild = "wine64"; })
     (pkgs.discord.override {
